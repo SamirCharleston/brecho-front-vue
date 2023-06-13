@@ -1,12 +1,20 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <PaginaProduto></PaginaProduto>
 </template>
 
+<script lang="ts">
+import PaginaProduto from '@/views/PaginaProduto.vue'
+export default {
+  name: "App",
+  components: {
+    PaginaProduto
+  }
+}
+</script>
+
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap');
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -26,5 +34,22 @@ nav {
       color: #42b983;
     }
   }
+}
+
+.bg-color-primary {
+  background-color: #FF7272;
+}
+
+.font-color-primary {
+  color: white;
+}
+
+.font-family {
+  font-family: 'Dongle', sans-serif;
+}
+
+.font-title {
+  font-size: 2em;
+  font-weight: 400;
 }
 </style>
