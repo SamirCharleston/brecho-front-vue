@@ -52,4 +52,8 @@ nav {
   font-size: 2em;
   font-weight: 400;
 }
+
+.decoration-off {
+  text-decoration: none !important;
+}
 </style>

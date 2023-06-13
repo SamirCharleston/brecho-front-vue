@@ -6,21 +6,31 @@
                     <SideBar></SideBar>
                 </v-col>
                 <v-col>
-                    <SelledProducts></SelledProducts>
+                    <router-link to="/pagina-do-produto">Clique</router-link>
+                    <router-view></router-view>
                 </v-col>
             </v-row>
         </v-container>
     </v-app>
 </template>
-
+  
 <script lang="ts">
+import { defineComponent } from 'vue';
+import { RouterLink, RouterView } from 'vue-router';
 import SideBar from '@/components/SideBar.vue';
-import SelledProducts from '@/components/SelledProducts.vue';
-export default {
-    name: "PaginaProduto",
+
+export default defineComponent({
+    name: 'PaginaProduto',
     components: {
         SideBar,
-        SelledProducts
+        RouterLink,
+        RouterView,
+    },
+    methods: {
+        modify() {
+            RouterLink.apply;
+        }
     }
-}
+});
 </script>
+  

@@ -20,7 +20,9 @@
                     {{ dataClients[i].itens }}
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[3]">
-                    {{ dataClients[i].total }}
+                    <span class="more-space">{{ dataClients[i].total }}</span>
+                    <v-btn append-icon="fa-solid fa-arrow-right" class="rounded-cicle" flat>
+                    </v-btn>
                 </v-col>
             </v-row>
         </v-container>
@@ -33,7 +35,7 @@ export default {
     data() {
         return {
             columnsContent: ["DATA", "CLIENTE", "ITENS", "TOTAL"],
-            columnsWidth: ["2", "6", "2", "2"],
+            columnsWidth: ["2", "56", "2", "2"],
             columnsStyle: "d-flex justfy-start font-family font-size mb-0 pb-0",
             dataClients: [{
                 id: "1",
@@ -62,5 +64,9 @@ export default {
 
 .border-top {
     border-top: solid 1px black;
+}
+
+.more-space {
+    width: 70%;
 }
 </style>

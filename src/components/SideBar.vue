@@ -5,36 +5,41 @@
         </v-row>
         <v-row class="h-70 borders-bt">
             <div class="d-flex flex-column justify-space-evenly w-100 h-50">
-                <v-btn class="d-flex justify-start button grow  rounded-0" :prepend-icon="iconButtons[i]" flat
+                <RouterLink :to="routerLinks[i]" class="d-flex flex-column justify-space-evenly w-100 h-100 decoration-off"
                     v-for="button, i in buttons" :key="button">
-                    <span class="font-size">{{ button }}</span>
-                </v-btn>
+                    <v-btn class="d-flex justify-start button grow  rounded-0" :prepend-icon="iconButtons[i]" flat>
+                        <span class="font-size">{{ button }}</span>
+                    </v-btn>
+                </RouterLink>
             </div>
         </v-row>
-        <v-row class="bg-purple">
-            <v-btn append-icon="fa-solid fa-arrow-right-from-bracket" class="button h-100 w-100 rounded-0" flat><span
-                    class="font-size">Sair</span>
-            </v-btn>
+        <v-row>
+            <RouterLink to="/" class="w-100">
+                <v-btn append-icon="fa-solid fa-arrow-right-from-bracket" class="button h-100 w-100 rounded-0" flat><span
+                        class="font-size">Sair</span>
+                </v-btn>
+            </RouterLink>
         </v-row>
     </v-container>
 </template>
 
 <script lang="ts">
+import { useRouter } from 'vue-router';
+
 export default {
     name: "SideBar",
     data() {
         return {
             buttons: ["Inicio", "Produtos", "Pedidos", "Configuracoes Gerais"],
             iconButtons: ["fa-solid fa-house", "fa-solid fa-basket-shopping", "fa-solid fa-box-open", "fa-solid fa-gear"],
-            bgPrimaryColor: "bg-color-primary"
+            bgPrimaryColor: "bg-color-primary",
+            routerLinks: ["/", "/produtos-vendidos", "/pedidos", "/configuracoes"]
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap');
-
 $backgroud-primary-color: #FF7272;
 $button-togle-color: #f69a9a;
 $font-color: white;
@@ -79,14 +84,5 @@ $font-color: white;
 
 .font-size {
     font-size: 1.5em;
-}
-
-.font-family {
-    font-family: 'Dongle', sans-serif;
-}
-
-.font-title {
-    font-size: 2em;
-    font-weight: 400;
 }
 </style>
