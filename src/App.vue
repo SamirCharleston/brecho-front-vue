@@ -1,13 +1,16 @@
 <template>
   <PaginaProduto></PaginaProduto>
+  <!-- <HomeEstacionamento></HomeEstacionamento> -->
 </template>
 
 <script lang="ts">
 import PaginaProduto from '@/views/PaginaProduto.vue'
+import HomeEstacionamento from '@/views/HomeEstacionamento.vue'
 export default {
   name: "App",
   components: {
-    PaginaProduto
+    PaginaProduto,
+    HomeEstacionamento
   }
 }
 </script>

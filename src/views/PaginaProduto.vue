@@ -6,8 +6,10 @@
                     <SideBar></SideBar>
                 </v-col>
                 <v-col>
-                    <router-link to="/pagina-do-produto">Clique</router-link>
+                    <router-link to="/pagina-do-produto"><v-btn flat variant="outlined">Listar</v-btn></router-link>
                     <router-view></router-view>
+                    <!-- <slot>
+                    </slot> -->
                 </v-col>
             </v-row>
         </v-container>
@@ -18,19 +20,15 @@
 import { defineComponent } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 import SideBar from '@/components/SideBar.vue';
+// import PaginaProduto from '@/components/PaginaProduto.vue'
 
 export default defineComponent({
     name: 'PaginaProduto',
     components: {
         SideBar,
+        // PaginaProduto
         RouterLink,
         RouterView,
-    },
-    methods: {
-        modify() {
-            RouterLink.apply;
-        }
     }
 });
 </script>
-  

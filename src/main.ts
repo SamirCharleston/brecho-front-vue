@@ -10,17 +10,18 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { aliases, fa } from 'vuetify/iconsets/fa'
 import '@fortawesome/fontawesome-free/css/all.css'
+import axios from "axios";
 
 const vuetify = createVuetify({
     components,
     directives,
-    icons: {
-        defaultSet: 'fa',
-        aliases,
-        sets: {
-            fa,
-        },
-    }
+    // icons: {
+    //     defaultSet: 'fa',
+    //     aliases,
+    //     sets: {
+    //         fa,
+    //     },
+    // }
 })
 
 const app = createApp(App)

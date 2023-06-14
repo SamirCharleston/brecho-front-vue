@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
     name: "SideBar",
@@ -34,6 +34,11 @@ export default {
             iconButtons: ["fa-solid fa-house", "fa-solid fa-basket-shopping", "fa-solid fa-box-open", "fa-solid fa-gear"],
             bgPrimaryColor: "bg-color-primary",
             routerLinks: ["/", "/produtos-vendidos", "/pedidos", "/configuracoes"]
+        }
+    },
+    methods: {
+        toAdress() {
+            const elemento = useRoute;
         }
     }
 }
