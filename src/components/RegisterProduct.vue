@@ -70,8 +70,9 @@
                 </v-row>
                 <v-row>
                     <v-col cols="12" class="d-flex justify-end">
-                        <v-btn color="grey" variant="outlined" class="font-family button-size ma-1">Cancelar</v-btn>
-                        <v-btn class="button-style font-family button-size ma-1">Salvar</v-btn>
+                        <v-btn @click="clearFields" color="grey" variant="outlined"
+                            class="font-family button-size ma-1">Cancelar</v-btn>
+                        <v-btn @click="sendToServer" class="button-style font-family button-size ma-1">Salvar</v-btn>
                     </v-col>
                 </v-row>
             </v-container>
@@ -128,6 +129,29 @@ export default defineComponent({
                     return "Digite a quantidade."
                 }
             ]
+        }
+    },
+    methods: {
+        clearFields() {
+
+            // this.productNumber = ''
+            // this.productName = ''
+            // this.productKind = ''
+            // this.productQuantity = ''
+            // this.productSize = ''
+            // this.productGenre = ''
+            // this.productStation = ''
+            // this.productDescrition = ''
+            // this.productImages = []
+            // this.productColor = ''
+            // this.productBrand = ''
+            // this.productPrice = ''
+            // this.productDiscount = false
+            // this.productAvailable = false
+            // this.productDescountPrice = ''
+        },
+        sendToServer() {
+
         }
     }
 })
