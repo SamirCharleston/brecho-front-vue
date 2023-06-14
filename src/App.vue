@@ -1,22 +1,24 @@
 <template>
-  <PaginaProduto></PaginaProduto>
+  <Administrador></Administrador>
   <!-- <HomeEstacionamento></HomeEstacionamento> -->
 </template>
 
 <script lang="ts">
-import PaginaProduto from '@/views/PaginaProduto.vue'
+import Administrador from '@/views/Administrador.vue'
 import HomeEstacionamento from '@/views/HomeEstacionamento.vue'
 export default {
   name: "App",
   components: {
-    PaginaProduto,
-    HomeEstacionamento
+    Administrador
   }
 }
 </script>
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap');
+$font-color: white;
+$backgroud-primary-color: #FF7272;
+$button-togle-color: #f69a9a;
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -58,5 +60,11 @@ nav {
 
 .decoration-off {
   text-decoration: none !important;
+}
+
+.button {
+  background-color: $backgroud-primary-color;
+  border: none;
+  color: $font-color;
 }
 </style>

@@ -3,9 +3,14 @@ import SelledProducts from '../views/SelledProducts.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/pagina-do-produto',
-    name: 'pagina-do-produto',
+    path: '/produtos-vendidos',
+    name: 'produtos-vendidos',
     component: () => import('@/components/SelledProducts.vue')
+  },
+  {
+    path: '/cadastrar-produtos',
+    name: 'cadastrar-produtos',
+    component: () => import('@/components/RegisterProduct.vue')
   }
 ]
 

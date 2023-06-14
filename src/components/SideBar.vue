@@ -24,25 +24,22 @@
 </template>
 
 <script lang="ts">
-import { useRoute, useRouter } from 'vue-router';
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 
-export default {
+export default defineComponent({
     name: "SideBar",
     data() {
         return {
-            buttons: ["Inicio", "Produtos", "Pedidos", "Configuracoes Gerais"],
-            iconButtons: ["fa-solid fa-house", "fa-solid fa-basket-shopping", "fa-solid fa-box-open", "fa-solid fa-gear"],
+            buttons: ["Inicio", "Produtos", "Cadastro de Produtos", "Pedidos", "Configuracoes Gerais"],
+            iconButtons: ["fa-solid fa-house", "fa-solid fa-basket-shopping", "fa-solid fa-plus", "fa-solid fa-box-open", "fa-solid fa-gear"],
             bgPrimaryColor: "bg-color-primary",
-            routerLinks: ["/", "/produtos-vendidos", "/pedidos", "/configuracoes"]
-        }
-    },
-    methods: {
-        toAdress() {
-            const elemento = useRoute;
+            routerLinks: ["/", "/produtos-vendidos", "/cadastrar-produtos", "/pedidos", "/configuracoes"]
         }
     }
-}
+})
 </script>
+
 
 <style lang="scss" scoped>
 $backgroud-primary-color: #FF7272;
