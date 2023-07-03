@@ -43,7 +43,7 @@ export class AbstractClient<T extends AbstractEntity> {
 
     public async cadastrar(objeto: T): Promise<void> {
         try {
-            return (await this.axiosClient.post(`${this.tipoDoObjeto}`, objeto))
+            return (await this.axiosClient.post(`${this.tipoDoObjeto}`, objeto)).data
         } catch (error: any) {
             return Promise.reject(error.response)
         }

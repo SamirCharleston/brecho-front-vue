@@ -9,7 +9,7 @@ export class Produto extends AbstractEntity {
     cor!: string
     tamanho!: string
     valorAtual!: number
-    fotosDoProduto!: string
+    fotosDoProduto!: string[]
     descricao!: string
     marca!: string
     disponibilidade!: boolean
