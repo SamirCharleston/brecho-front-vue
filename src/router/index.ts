@@ -11,6 +11,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/cadastrar-produtos',
     name: 'cadastrar-produtos',
     component: () => import('@/components/RegisterProduct.vue')
+  },
+  {
+    path: '/pedidos',
+    name: 'pedidos',
+    component: () => import('@/components/AskedProducts.vue')
+  },
+  {
+    path: '/configuracoes',
+    name: 'configuracoes',
+    component: () => import('@/components/Settings.vue')
   }
 ]
 
