@@ -9,62 +9,61 @@
                 </v-row>
                 <v-row>
                     <v-col cols="3" class="pb-0">
-                        <v-text-field v-model="productNumber" :rules="productRules" label="Codigo" counter="10" required
+                        <v-text-field v-model="produto.codigo" :rules="productRules" label="Codigo" counter="10" required
                             :disabled="false" variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="9" class="pb-0">
-                        <v-text-field v-model="productName" :rules="nameRules" counter="50" required label="Nome do produto"
-                            variant="outlined" density="compact"></v-text-field>
+                        <v-text-field v-model="produto.nome" :rules="nameRules" counter="50" required
+                            label="Nome do produto" variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="5" class="pb-0">
-                        <v-select v-model="productSize" :items="productSizeOptions" label="Tamanho" required
+                        <v-select v-model="produto.tamanho" :items="productSizeOptions" label="Tamanho" required
                             variant="outlined" density="compact">
                         </v-select>
                     </v-col>
                     <v-col cols="5" class="pb-0">
-                        <v-text-field v-model="productKind" label="Tipo" :rules="textFieldRules" required counter="100"
-                            variant="outlined" density="compact">
+                        <v-text-field v-model="tipo.tipoVestuario" label="Tipo" :rules="textFieldRules" required
+                            counter="100" variant="outlined" density="compact">
                         </v-text-field>
                     </v-col>
                     <v-col cols="2" class="pb-0">
-                        <v-text-field v-model="productQuantity" :rules="quantityRules" label="Quantidade" required
+                        <v-text-field v-model="produto.quantidade" :rules="quantityRules" label="Quantidade" required
                             :disabled="false" variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="2" class="pb-0">
-                        <v-select v-model="productGenre" :items="genreOptions" label="Genero" required variant="outlined"
+                        <v-select v-model="tipo.genero" :items="genreOptions" label="Genero" required variant="outlined"
                             density="compact"></v-select>
                     </v-col>
                     <v-col cols="2" class="pb-0">
-                        <v-select v-model="productStation" :items="stationOptions" label="Estacao" required
-                            variant="outlined" density="compact"></v-select>
+                        <v-select v-model="tipo.estacao" :items="stationOptions" label="Estacao" required variant="outlined"
+                            density="compact"></v-select>
                     </v-col>
                     <v-col cols="4" class="pb-0">
-                        <v-text-field v-model="productColor" label="Cor" counter="50" variant="outlined"
+                        <v-text-field v-model="produto.cor" label="Cor" counter="50" variant="outlined"
                             density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="4" class="pb-0">
-                        <v-text-field v-model="productBrand" label="Marca" counter="100" required :disabled="false"
+                        <v-text-field v-model="produto.marca" label="Marca" counter="100" required :disabled="false"
                             variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="12" class="pb-0">
-                        <v-textarea v-model="productDescrition" label="Descricao" counter="500" variant="outlined"
+                        <v-textarea v-model="produto.descricao" label="Descricao" counter="500" variant="outlined"
                             density="compact"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="9" class="pb-0">
-                        <v-file-input class="full-height" v-model="productImages" variant="outlined"
-                            prepend-icon="fa-solid fa-camera" accept="image/*" label="Anexe as imagens" show-size counter
-                            multiple density="compact"></v-file-input>
+                        <v-text-field v-for="(foto, i) in fotosDoProduto" v-model="fotosDoProduto[i]"
+                            label="Link da foto do produto" required variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="3" class="pb-0">
-                        <v-text-field v-model="productPrice" label="Valor (R$)" required variant="outlined"
+                        <v-text-field v-model="produto.valorAtual" label="Valor (R$)" required variant="outlined"
                             density="compact"></v-text-field>
-                        <v-text-field v-model="productDescountPrice" label="Valor com desconto" required variant="outlined"
+                        <v-text-field v-model="produto.valorAnterior" label="Valor com desconto" required variant="outlined"
                             density="compact"></v-text-field>
-                        <v-switch v-model="productDiscount" color="#FE7271" label="Produto com desconto"
+                        <v-switch v-model="produto.emPromocao" color="#FE7271" label="Produto em promocao"
                             density="compact"></v-switch>
-                        <v-switch v-model="productAvailable" color="#FE7271" label="Produto disponivel"
+                        <v-switch v-model="produto.disponibilidade" color="#FE7271" label="Produto disponivel"
                             density="compact"></v-switch>
                     </v-col>
                 </v-row>
@@ -81,28 +80,21 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { ProdutoClient } from '@/client/ProdutoClient'
+import { Produto } from '@/models/Produto'
+import { Tipo } from '@/models/Tipo'
+import { TipoClient } from '@/client/TipoClient'
 
 export default defineComponent({
     name: "RegisterProduct",
     data() {
         return {
-            productNumber: '',
-            productName: '',
-            productKind: '',
-            productQuantity: '',
-            productSize: '',
-            productGenre: '',
-            productStation: '',
-            productDescrition: '',
-            productImages: [],
-            productColor: '',
-            productBrand: '',
-            productPrice: '',
-            productDiscount: false,
-            productAvailable: false,
-            productDescountPrice: '',
+            produto: new Produto,
+            tipo: new Tipo,
+            tipos: [] as Tipo[],
+            fotosDoProduto: ["", "", "", ""] as Array<string>,
             genreOptions: ["Masculino", "Feminino", "Unissex"],
-            stationOptions: ["Primavera", "Verao", "Outono", "Inverno"],
+            stationOptions: ["Primavera", "Verão", "Outono", "Inverno"],
             productSizeOptions: ["Extra pequeno PP", "Pequeno P", "Medio M", "Grande G", "Extra grande GG", "Sem tamanho definido"],
 
             productRules: [
@@ -133,25 +125,36 @@ export default defineComponent({
     },
     methods: {
         clearFields() {
-
-            // this.productNumber = ''
-            // this.productName = ''
-            // this.productKind = ''
-            // this.productQuantity = ''
-            // this.productSize = ''
-            // this.productGenre = ''
-            // this.productStation = ''
-            // this.productDescrition = ''
-            // this.productImages = []
-            // this.productColor = ''
-            // this.productBrand = ''
-            // this.productPrice = ''
-            // this.productDiscount = false
-            // this.productAvailable = false
-            // this.productDescountPrice = ''
         },
         sendToServer() {
+            new TipoClient('tipo')
+                .cadastrar(this.tipo)
+                .then((success: any) => {
+                    // console.log("Tipo cadastrado")
+                    new TipoClient('tipo')
+                        .getAll()
+                        .then((success: Tipo[]) => {
+                            this.produto.tipo = success[success.length - 1]
+                            this.produto.fotosDoProduto = []
+                            // console.log(this.produto.fotosDoProduto)
+                            this.fotosDoProduto.forEach((foto: string) => {
+                                this.produto.fotosDoProduto.push(foto)
+                            })
+                            new ProdutoClient('produto')
+                                .cadastrar(this.produto)
+                                .then((success: any) => {
+                                    console.log(success)
+                                }).catch((err: any) => {
+                                    console.log(err)
+                                })
+                        }).catch((err) => {
+                            console.log(err)
+                        })
 
+                })
+                .catch((err: any) => {
+                    console.log(err)
+                })
         }
     }
 })
