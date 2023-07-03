@@ -35,7 +35,7 @@ export default defineComponent({
             iconButtons: ["fa-solid fa-house", "fa-solid fa-basket-shopping", "fa-solid fa-plus", "fa-solid fa-box-open", "fa-solid fa-gear"],
             disabledButtons: [false, false, false, false, true],
             bgPrimaryColor: "bg-color-primary",
-            routerLinks: ["/administrador", "/produtos-vendidos", "/cadastrar-produtos", "/pedidos", "/configuracoes"]
+            routerLinks: ["", "/produtos-vendidos", "/cadastrar-produtos", "/pedidos", "/configuracoes"]
         }
     }
 })

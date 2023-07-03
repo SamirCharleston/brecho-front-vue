@@ -8,11 +8,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/components/AskedProducts.vue')
   },
   {
-    path: '/administrador',
-    name: 'administrador',
-    component: () => import('@/views/login-View.vue')
-  },
-  {
     path: '/cadastrar-produtos',
     name: 'cadastrar-produtos',
     component: () => import('@/components/RegisterProduct.vue')
