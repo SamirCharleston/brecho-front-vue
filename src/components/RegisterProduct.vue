@@ -1,5 +1,5 @@
 <template>
-    <div class="containerScroll">
+    <div class="containerScroll pa-10">
         <v-form @submit.prevent fast-fail>
             <v-container>
                 <v-row>
