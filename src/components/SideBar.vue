@@ -7,7 +7,7 @@
             <div class="d-flex flex-column justify-space-evenly w-100 h-50">
                 <RouterLink :to="routerLinks[i]" class="d-flex flex-column justify-space-evenly w-100 h-100 decoration-off"
                     v-for="button, i in buttons" :key="button">
-                    <v-btn class="d-flex justify-start button grow  rounded-0" :prepend-icon="iconButtons[i]" flat>
+                    <v-btn class="d-flex justify-start button grow rounded-0" :prepend-icon="iconButtons[i]" flat>
                         <span class="font-size">{{ button }}</span>
                     </v-btn>
                 </RouterLink>

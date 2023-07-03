@@ -1,6 +1,6 @@
 <template>
-    <v-container>
-        <h2 class="d-flex justify-start font-family font-title">Produtos Vendidos</h2>
+    <v-container class="pa-10">
+        <h2 class="d-flex justify-start font-family font-title">Pedidos</h2>
         <v-container>
             <v-row>
                 <v-col :class="columnsStyle" :cols="columnsWidth[i]" v-for="name, i in columnsContent" :key="name">

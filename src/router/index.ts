@@ -5,7 +5,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/produtos-vendidos',
     name: 'produtos-vendidos',
-    component: () => import('@/components/SelledProducts.vue')
+    component: () => import('@/components/AskedProducts.vue')
   },
   {
     path: '/cadastrar-produtos',
@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/pedidos',
     name: 'pedidos',
-    component: () => import('@/components/AskedProducts.vue')
+    component: () => import('@/components/SelledProducts.vue')
   },
   {
     path: '/configuracoes',
