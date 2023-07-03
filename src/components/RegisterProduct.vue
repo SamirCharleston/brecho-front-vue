@@ -81,11 +81,14 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { ProdutoClient } from '@/client/ProdutoClient'
+import { Produto } from '@/models/Produto'
 
 export default defineComponent({
     name: "RegisterProduct",
     data() {
         return {
+            produto: new Produto,
             productNumber: '',
             productName: '',
             productKind: '',
@@ -133,25 +136,15 @@ export default defineComponent({
     },
     methods: {
         clearFields() {
-
-            // this.productNumber = ''
-            // this.productName = ''
-            // this.productKind = ''
-            // this.productQuantity = ''
-            // this.productSize = ''
-            // this.productGenre = ''
-            // this.productStation = ''
-            // this.productDescrition = ''
-            // this.productImages = []
-            // this.productColor = ''
-            // this.productBrand = ''
-            // this.productPrice = ''
-            // this.productDiscount = false
-            // this.productAvailable = false
-            // this.productDescountPrice = ''
         },
         sendToServer() {
-
+            const client = new ProdutoClient('produto')
+                .cadastrar(this.produto)
+                .then((success: any) => {
+                    console.log(success)
+                }).catch((err: any) => {
+                    console.log(err)
+                })
         }
     }
 })
