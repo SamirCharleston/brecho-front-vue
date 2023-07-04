@@ -5,11 +5,11 @@ export class Produto extends AbstractEntity {
 
     codigo!: string
     nome!: string
-    tipo!: Tipo
+    tipo!: string
     cor!: string
     tamanho!: string
     valorAtual!: number
-    fotosDoProduto!: string[]
+    fotosDoProduto!: string
     descricao!: string
     marca!: string
     disponibilidade!: boolean
