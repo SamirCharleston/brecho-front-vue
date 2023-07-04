@@ -13,4 +13,7 @@ export class Cliente extends AbstractEntity {
     bairro!: string
     pontoReferencia!: string
 
+    constructor(){
+        super()
+    }
 }
