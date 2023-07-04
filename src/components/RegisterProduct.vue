@@ -1,6 +1,14 @@
 <template>
     <div class="containerScroll pa-10">
-        <v-form @submit.prevent fast-fail>
+        <v-dialog v-model="registerLoading" hide-overlay persistent width="300">
+            <v-card color="#FF7272" dark>
+                <v-card-text class="color-white">
+                    {{ textDialog }}
+                    <v-progress-linear indeterminate color="white" :class="registerLoadingStyle"></v-progress-linear>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+        <v-form @submit.prevent fast-fail ref="form">
             <v-container>
                 <v-row>
                     <v-col class="d-flex justify-start">
@@ -78,16 +86,20 @@ import { ProdutoClient } from '@/client/ProdutoClient'
 import { Produto } from '@/models/Produto'
 import { Tipo } from '@/models/Tipo'
 import { TipoClient } from '@/client/TipoClient'
+import { stringifyQuery } from 'vue-router';
+import { formToJSON } from 'axios';
 
 export default defineComponent({
     name: "RegisterProduct",
     data() {
         return {
             produto: new Produto,
+            registerLoading: false,
+            textDialog: 'Salvando',
+            registerLoadingStyle: 'ma-0 transition-1s',
             genreOptions: ["Masculino", "Feminino", "Unissex"],
             stationOptions: ["Primavera", "Verão", "Outono", "Inverno"],
             productSizeOptions: ["Extra pequeno PP", "Pequeno P", "Medio M", "Grande G", "Extra grande GG", "Sem tamanho definido"],
-
             productRules: [
                 (value: string) => {
                     if (value) return true
@@ -116,15 +128,23 @@ export default defineComponent({
     },
     methods: {
         clearFields() {
+            (this.$refs.form as HTMLFormElement).reset()
         },
         sendToServer() {
-            // console.log(this.produto.fotosDoProduto)
+            this.registerLoading = true
+            this.registerLoadingStyle = 'ma-0 transition-1s opacity-1'
             new ProdutoClient('produto')
                 .cadastrar(this.produto)
                 .then((success: any) => {
-                    console.log(success)
+                    this.clearFields()
+                    this.textDialog = 'Salvo com sucesso!'
                 }).catch((err: any) => {
-                    console.log(err)
+                    this.textDialog = 'Tivemos um problema :('
+                }).finally(() => {
+                    this.registerLoadingStyle = 'ma-0 transition-1s opacity-0'
+                    setTimeout(() => {
+                        this.registerLoading = false
+                    }, 2000)
                 })
         }
     }
@@ -140,11 +160,27 @@ $button-togle-color: #f69a9a;
     height: 100%;
 }
 
+.color-white {
+    color: white
+}
+
 .containerScroll {
     height: 100vh;
     box-sizing: border-box;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.transition-1s {
+    transition: all 1s;
+}
+
+.opacity-1 {
+    opacity: 1;
+}
+
+.opacity-0 {
+    opacity: 0;
 }
 
 .button-style {

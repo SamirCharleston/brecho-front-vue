@@ -11,7 +11,7 @@
             </v-row>
             <v-row v-for="dataClient, i in dataClients" :key="dataClient.id">
                 <v-col :class="columnsStyle" :cols="columnsWidth[0]">
-                    {{ formatDate(dataClients[i].dataCriacao) }}
+                    {{ formatDate(dataClients[i].dataDeVenda) }}
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[1]">
                     {{ dataClients[i].cliente.nome }}
@@ -32,7 +32,8 @@
 <script lang="ts">
 import { VendaClient } from '@/client/VendaClient'
 import { Venda } from '@/models/Venda'
-export default {
+import { defineComponent } from 'vue'
+export default defineComponent({
     name: "SelledProducts",
     data() {
         return {
@@ -63,10 +64,10 @@ export default {
             return ''
         },
     },
-    created() {
+    mounted() {
         this.requestServer()
     }
-}
+})
 </script>
 
 <style lang="scss" scoped>
