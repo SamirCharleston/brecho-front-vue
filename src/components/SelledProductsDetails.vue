@@ -134,7 +134,7 @@ export default defineComponent({
             cliente: new Cliente(),
             venda: new Venda(),
             produtos: new Array<Produto>(),
-            vendaClient: new VendaClient("Venda")
+            vendaClient: new VendaClient("venda")
         }
     },
     methods:{
