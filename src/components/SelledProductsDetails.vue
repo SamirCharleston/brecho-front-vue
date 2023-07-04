@@ -106,7 +106,7 @@
                     <span class="font-family font-size">VALOR TOTAL: {{ venda.total }}</span>
                 </v-col>
                 <v-col offset="3">
-                    <v-btn color="grey" variant="outlined"
+                    <v-btn @click="voltar" color="grey" variant="outlined"
                             class="font-family button-size ma-1">Voltar</v-btn>
                     <v-btn class="button-style font-family button-size ma-1">Imprimir</v-btn>
                 </v-col>
@@ -148,6 +148,10 @@ export default defineComponent({
             .catch((error: any) => {
                 console.log(error);
             })
+        },
+        voltar()
+        {
+            this.$router.push({name: "pedidos"})
         }
     },
     computed:{
