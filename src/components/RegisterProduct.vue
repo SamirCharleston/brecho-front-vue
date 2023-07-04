@@ -1,6 +1,14 @@
 <template>
     <div class="containerScroll pa-10">
-        <v-form @submit.prevent fast-fail>
+        <v-dialog v-model="registerLoading" hide-overlay persistent width="300">
+            <v-card color="#FF7272" dark>
+                <v-card-text class="color-white">
+                    {{ textDialog }}
+                    <v-progress-linear indeterminate color="white" :class="registerLoadingStyle"></v-progress-linear>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+        <v-form @submit.prevent fast-fail ref="form">
             <v-container>
                 <v-row>
                     <v-col class="d-flex justify-start">
@@ -9,62 +17,55 @@
                 </v-row>
                 <v-row>
                     <v-col cols="3" class="pb-0">
-                        <v-text-field v-model="productNumber" :rules="productRules" label="Codigo" counter="10" required
+                        <v-text-field v-model="produto.codigo" :rules="productRules" label="Codigo" counter="10" required
                             :disabled="false" variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="9" class="pb-0">
-                        <v-text-field v-model="productName" :rules="nameRules" counter="50" required label="Nome do produto"
-                            variant="outlined" density="compact"></v-text-field>
+                        <v-text-field v-model="produto.nome" :rules="nameRules" counter="50" required
+                            label="Nome do produto" variant="outlined" density="compact"></v-text-field>
                     </v-col>
-                    <v-col cols="5" class="pb-0">
-                        <v-select v-model="productSize" :items="productSizeOptions" label="Tamanho" required
+                    <v-col cols="4" class="pb-0">
+                        <v-select v-model="produto.tamanho" :items="productSizeOptions" label="Tamanho" required
                             variant="outlined" density="compact">
                         </v-select>
                     </v-col>
-                    <v-col cols="5" class="pb-0">
-                        <v-text-field v-model="productKind" label="Tipo" :rules="textFieldRules" required counter="100"
-                            variant="outlined" density="compact">
-                        </v-text-field>
-                    </v-col>
                     <v-col cols="2" class="pb-0">
-                        <v-text-field v-model="productQuantity" :rules="quantityRules" label="Quantidade" required
+                        <v-text-field v-model="produto.quantidade" :rules="quantityRules" label="Quantidade" required
                             :disabled="false" variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="2" class="pb-0">
-                        <v-select v-model="productGenre" :items="genreOptions" label="Genero" required variant="outlined"
-                            density="compact"></v-select>
-                    </v-col>
-                    <v-col cols="2" class="pb-0">
-                        <v-select v-model="productStation" :items="stationOptions" label="Estacao" required
-                            variant="outlined" density="compact"></v-select>
-                    </v-col>
-                    <v-col cols="4" class="pb-0">
-                        <v-text-field v-model="productColor" label="Cor" counter="50" variant="outlined"
+                        <v-text-field v-model="produto.cor" label="Cor" counter="50" variant="outlined"
                             density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="4" class="pb-0">
-                        <v-text-field v-model="productBrand" label="Marca" counter="100" required :disabled="false"
-                            variant="outlined" density="compact"></v-text-field>
+                        <v-text-field v-model="produto.marca" label="Marca" counter="100" required :disabled="false"
+                            variant="outlined" density="compact">
+                        </v-text-field>
                     </v-col>
                     <v-col cols="12" class="pb-0">
-                        <v-textarea v-model="productDescrition" label="Descricao" counter="500" variant="outlined"
-                            density="compact"></v-textarea>
+                        <v-text-field v-model="produto.tipo" label="Tipo" counter="50" variant="outlined" density="compact">
+                        </v-text-field>
+                    </v-col>
+                    <v-col cols="12" class="pb-0">
+                        <v-textarea v-model="produto.descricao" label="Descricao" counter="500" variant="outlined"
+                            density="compact">
+                        </v-textarea>
                     </v-col>
                 </v-row>
+
                 <v-row>
                     <v-col cols="9" class="pb-0">
-                        <v-file-input class="full-height" v-model="productImages" variant="outlined"
-                            prepend-icon="fa-solid fa-camera" accept="image/*" label="Anexe as imagens" show-size counter
-                            multiple density="compact"></v-file-input>
+                        <v-text-field v-model="produto.fotosDoProduto" label="Link da foto do produto" required
+                            variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="3" class="pb-0">
-                        <v-text-field v-model="productPrice" label="Valor (R$)" required variant="outlined"
+                        <v-text-field v-model="produto.valorAtual" label="Valor (R$)" required variant="outlined"
                             density="compact"></v-text-field>
-                        <v-text-field v-model="productDescountPrice" label="Valor com desconto" required variant="outlined"
+                        <v-text-field v-model="produto.valorAnterior" label="Valor com desconto" required variant="outlined"
                             density="compact"></v-text-field>
-                        <v-switch v-model="productDiscount" color="#FE7271" label="Produto com desconto"
+                        <v-switch v-model="produto.emPromocao" color="#FE7271" label="Produto em promocao"
                             density="compact"></v-switch>
-                        <v-switch v-model="productAvailable" color="#FE7271" label="Produto disponivel"
+                        <v-switch v-model="produto.disponibilidade" color="#FE7271" label="Produto disponivel"
                             density="compact"></v-switch>
                     </v-col>
                 </v-row>
@@ -81,30 +82,24 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { ProdutoClient } from '@/client/ProdutoClient'
+import { Produto } from '@/models/Produto'
+import { Tipo } from '@/models/Tipo'
+import { TipoClient } from '@/client/TipoClient'
+import { stringifyQuery } from 'vue-router';
+import { formToJSON } from 'axios';
 
 export default defineComponent({
     name: "RegisterProduct",
     data() {
         return {
-            productNumber: '',
-            productName: '',
-            productKind: '',
-            productQuantity: '',
-            productSize: '',
-            productGenre: '',
-            productStation: '',
-            productDescrition: '',
-            productImages: [],
-            productColor: '',
-            productBrand: '',
-            productPrice: '',
-            productDiscount: false,
-            productAvailable: false,
-            productDescountPrice: '',
+            produto: new Produto,
+            registerLoading: false,
+            textDialog: 'Salvando',
+            registerLoadingStyle: 'ma-0 transition-1s',
             genreOptions: ["Masculino", "Feminino", "Unissex"],
-            stationOptions: ["Primavera", "Verao", "Outono", "Inverno"],
+            stationOptions: ["Primavera", "Verão", "Outono", "Inverno"],
             productSizeOptions: ["Extra pequeno PP", "Pequeno P", "Medio M", "Grande G", "Extra grande GG", "Sem tamanho definido"],
-
             productRules: [
                 (value: string) => {
                     if (value) return true
@@ -133,25 +128,24 @@ export default defineComponent({
     },
     methods: {
         clearFields() {
-
-            // this.productNumber = ''
-            // this.productName = ''
-            // this.productKind = ''
-            // this.productQuantity = ''
-            // this.productSize = ''
-            // this.productGenre = ''
-            // this.productStation = ''
-            // this.productDescrition = ''
-            // this.productImages = []
-            // this.productColor = ''
-            // this.productBrand = ''
-            // this.productPrice = ''
-            // this.productDiscount = false
-            // this.productAvailable = false
-            // this.productDescountPrice = ''
+            (this.$refs.form as HTMLFormElement).reset()
         },
         sendToServer() {
-
+            this.registerLoading = true
+            this.registerLoadingStyle = 'ma-0 transition-1s opacity-1'
+            new ProdutoClient('produto')
+                .cadastrar(this.produto)
+                .then((success: any) => {
+                    this.clearFields()
+                    this.textDialog = 'Salvo com sucesso!'
+                }).catch((err: any) => {
+                    this.textDialog = 'Tivemos um problema :('
+                }).finally(() => {
+                    this.registerLoadingStyle = 'ma-0 transition-1s opacity-0'
+                    setTimeout(() => {
+                        this.registerLoading = false
+                    }, 2000)
+                })
         }
     }
 })
@@ -166,11 +160,27 @@ $button-togle-color: #f69a9a;
     height: 100%;
 }
 
+.color-white {
+    color: white
+}
+
 .containerScroll {
     height: 100vh;
     box-sizing: border-box;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.transition-1s {
+    transition: all 1s;
+}
+
+.opacity-1 {
+    opacity: 1;
+}
+
+.opacity-0 {
+    opacity: 0;
 }
 
 .button-style {

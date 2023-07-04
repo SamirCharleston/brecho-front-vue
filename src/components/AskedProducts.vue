@@ -1,29 +1,32 @@
 <template>
     <v-container class="pa-10">
-        <h2 class="d-flex justify-start font-family font-title">Pedidos</h2>
+        <h2 class="d-flex justify-start font-family font-title">Produtos</h2>
         <v-container>
             <v-row>
-                <v-col :class="columnsStyle" :cols="columnsWidth[i]" v-for="name, i in columnsContent" :key="name">
+                <v-col :class="name === 'ATIVO' ? columnsStyle + ' justify-center' : columnsStyle" :cols="columnsWidth[i]"
+                    v-for="name, i in columnsContent" :key="name">
                     <p>{{ columnsContent[i] }}</p>
                 </v-col>
             </v-row>
             <v-row class="border-top">
             </v-row>
-            <v-row v-for="dataClient, i in dataClients" :key="dataClient.id">
+            <v-row v-for="dataClient, i in dataProducts" :key="dataClient.id">
                 <v-col :class="columnsStyle" :cols="columnsWidth[0]" density="compact">
-                    {{ dataClients[i].date }}
+                    {{ formatDate(dataProducts[i].dataCriacao) }}
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[1]" density="compact">
-                    {{ dataClients[i].product }}
+                    {{ dataProducts[i].nome }}
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[2]" density="compact">
-                    {{ dataClients[i].quantity }}
+                    {{ dataProducts[i].quantidade }}
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[3]">
-                    <span class="more-space">{{ dataClients[i].amount }}</span>
+                    <span>R$ </span>
+                    <span class="more-space">{{ dataProducts[i].valorAtual.toFixed(2) }}</span>
                 </v-col>
                 <v-col>
-                    <v-switch :class="columnsStyle" :cols="columnsWidth[4]" color="#FF7272" density="compact" flat>
+                    <v-switch @change="" v-model="dataProducts[i].status" :class="columnsStyle + ' justify-center'"
+                        :cols="columnsWidth[4]" color="#FF7272" density="compact" flat>
                     </v-switch>
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[5]" density="compact">
@@ -36,33 +39,45 @@
 </template>
 
 <script lang="ts">
-export default {
+import { ProdutoClient } from '@/client/ProdutoClient'
+import { Produto } from '@/models/Produto'
+import { defineComponent } from 'vue'
+
+export default defineComponent({
     name: "SelledProducts",
     data() {
         return {
+            dataProducts: [] as Produto[],
             columnsContent: ["DATA", "PRODUTO", "QTD", "VALOR", "ATIVO", ""],
-            columnsWidth: ["2", "4", "1", "2", "2", "1"],
-            columnsStyle: "d-flex justify-center font-family font-size mb-0 pb-0 align-center",
-            dataClients: [{
-                id: "1",
-                date: "05/06/2023",
-                product: "Calca polo",
-                quantity: "5",
-                amount: "150,00",
-                active: true
-            },
-            {
-                id: "1",
-                date: "05/06/2023",
-                product: "Camisa jeans",
-                quantity: "5",
-                amount: "150,00",
-                active: true
-            }
-            ]
+            columnsWidth: ["2", "4", "2", "1", "2", "1"],
+            columnsStyle: "d-flex justify-start font-family font-size mb-0 pb-0 align-center",
         }
+    },
+    methods: {
+        requestServer() {
+            new ProdutoClient('produto').getAll()
+                .then((success: Produto[]) => {
+                    this.dataProducts = success
+                }).catch((err) => {
+                    console.log(err)
+                })
+        },
+        formatDate(date: Date) {
+            if (date !== null) {
+                const entradaData = new Date(date).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                })
+                return entradaData;
+            }
+            return ''
+        }
+    },
+    mounted() {
+        this.requestServer()
     }
-}
+})
 </script>
 
 <style lang="scss" scoped>

@@ -11,13 +11,13 @@
             </v-row>
             <v-row v-for="dataClient, i in dataClients" :key="dataClient.id">
                 <v-col :class="columnsStyle" :cols="columnsWidth[0]">
-                    {{ dataClients[i].date }}
+                    {{ formatDate(dataClients[i].dataDeVenda) }}
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[1]">
-                    {{ dataClients[i].name }}
+                    {{ dataClients[i].cliente.nome }}
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[2]">
-                    {{ dataClients[i].itens }}
+                    {{ dataClients[i].produtos.length }}
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[3]">
                     <span class="more-space">{{ dataClients[i].total }}</span>
@@ -30,31 +30,44 @@
 </template>
 
 <script lang="ts">
-export default {
+import { VendaClient } from '@/client/VendaClient'
+import { Venda } from '@/models/Venda'
+import { defineComponent } from 'vue'
+export default defineComponent({
     name: "SelledProducts",
     data() {
         return {
             columnsContent: ["DATA", "CLIENTE", "ITENS", "TOTAL"],
-            columnsWidth: ["2", "56", "2", "2"],
+            columnsWidth: ["2", "6", "2", "2"],
             columnsStyle: "d-flex justfy-start font-family font-size mb-0 pb-0",
-            dataClients: [{
-                id: "1",
-                date: "05/06/2023",
-                name: "Maria Joaquina",
-                itens: "5",
-                total: "150,00"
-            },
-            {
-                id: "2",
-                date: "05/06/2023",
-                name: "Samir Cavalcante",
-                itens: "8",
-                total: "220,00"
-            }
-            ]
+            dataClients: [] as Venda[]
         }
+    },
+    methods: {
+        requestServer() {
+            new VendaClient('venda').getAll()
+                .then((success: Venda[]) => {
+                    this.dataClients = success
+                }).catch((err) => {
+                    console.log(err)
+                })
+        },
+        formatDate(date: Date) {
+            if (date !== null) {
+                const entradaData = new Date(date).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                })
+                return entradaData;
+            }
+            return ''
+        },
+    },
+    mounted() {
+        this.requestServer()
     }
-}
+})
 </script>
 
 <style lang="scss" scoped>
