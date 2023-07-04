@@ -62,24 +62,27 @@
                             <th>ENTREGUE</th>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr v-for="item in produtos" :key="item.id">
                                 <td>
-
+                                    {{ item.codigo }}
                                 </td>
                                 <td>
-
+                                    {{ item.nome }}
                                 </td>
                                 <td>
-
+                                    {{ item.quantidade }}
                                 </td>
                                 <td>
-
+                                    {{ venda.pagamento }}
                                 </td>
                                 <td>
-
+                                    {{ item.valorAtual }}
                                 </td>
-                                <td>
-
+                                <td v-if="venda.confirmacaoDaEntrega">
+                                    SIM
+                                </td>
+                                <td v-else>
+                                    NÃO
                                 </td>
                             </tr>
                         </tbody>
@@ -100,7 +103,7 @@
             
             <v-row class="flex-column">
                 <v-col offset="3">
-                    <span class="font-family font-size">VALOR TOTAL: </span>
+                    <span class="font-family font-size">VALOR TOTAL: {{ venda.total }}</span>
                 </v-col>
                 <v-col offset="3">
                     <v-btn color="grey" variant="outlined"
@@ -117,27 +120,46 @@
 
 <script lang="ts">
 import { Cliente } from '@/models/Cliente';
+import { Produto } from '@/models/Produto';
+import { Venda } from '@/models/Venda';
+import { VendaClient } from '@/client/VendaClient';
+import { defineComponent } from 'vue';
 
 
 
-
-export default{
+export default defineComponent({
     name: "SelledProductsDetails",
     data(){
         return{
-            cliente: new Cliente
+            cliente: new Cliente(),
+            venda: new Venda(),
+            produtos: new Array<Produto>(),
+            vendaClient: new VendaClient("Venda")
         }
     },
     methods:{
-        atribuir(){
-            
+        findById(id: number){
+            this.vendaClient.buscaPorId(id)
+            .then((success: Venda) => {
+                this.venda = success;
+                this.produtos = success.produtos;
+                this.cliente = success.cliente;
+            })
+            .catch((error: any) => {
+                console.log(error);
+            })
+        }
+    },
+    computed:{
+        id(){
+            return this.$route.query.id
         }
     },
     mounted: function()
     {
-        this.cliente.nome = "Lucas";
+        this.findById(Number(this.id));
     }
-}
+})
 </script>
 
 <style lang="scss" scoped>
