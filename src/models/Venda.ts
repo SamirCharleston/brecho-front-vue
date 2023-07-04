@@ -16,4 +16,8 @@ export class Venda extends AbstractEntity {
     confirmacaoDaEntrega!: boolean
     trocoDoCliente!: number
     dinheiroFornecidoPeloCliente!: number
+
+    constructor(){
+        super()
+    }
 }
