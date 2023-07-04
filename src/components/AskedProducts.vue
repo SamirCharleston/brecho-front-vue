@@ -41,8 +41,9 @@
 <script lang="ts">
 import { ProdutoClient } from '@/client/ProdutoClient'
 import { Produto } from '@/models/Produto'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
     name: "SelledProducts",
     data() {
         return {
@@ -76,7 +77,7 @@ export default {
     mounted() {
         this.requestServer()
     }
-}
+})
 </script>
 
 <style lang="scss" scoped>
