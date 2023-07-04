@@ -106,12 +106,8 @@
                     <span class="font-family font-size">VALOR TOTAL: {{ venda.total }}</span>
                 </v-col>
                 <v-col offset="3">
-<<<<<<< HEAD
-                    <v-btn color="grey" variant="outlined" class="font-family button-size ma-1">Voltar</v-btn>
-=======
                     <v-btn @click="voltar" color="grey" variant="outlined"
-                            class="font-family button-size ma-1">Voltar</v-btn>
->>>>>>> 3f540e5f18614d31d1c279c15a29d8b76eb7bc38
+                        class="font-family button-size ma-1">Voltar</v-btn>
                     <v-btn class="button-style font-family button-size ma-1">Imprimir</v-btn>
                 </v-col>
             </v-row>
@@ -144,7 +140,6 @@ export default defineComponent({
     methods: {
         findById(id: number) {
             this.vendaClient.buscaPorId(id)
-<<<<<<< HEAD
                 .then((success: Venda) => {
                     this.venda = success;
                     this.produtos = success.produtos;
@@ -153,20 +148,9 @@ export default defineComponent({
                 .catch((error: any) => {
                     console.log(error);
                 })
-=======
-            .then((success: Venda) => {
-                this.venda = success;
-                this.produtos = success.produtos;
-                this.cliente = success.cliente;
-            })
-            .catch((error: any) => {
-                console.log(error);
-            })
         },
-        voltar()
-        {
-            this.$router.push({name: "pedidos"})
->>>>>>> 3f540e5f18614d31d1c279c15a29d8b76eb7bc38
+        voltar() {
+            this.$router.push({ name: "pedidos" })
         }
     },
     computed: {
