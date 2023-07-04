@@ -16,45 +16,39 @@
                         <v-text-field v-model="produto.nome" :rules="nameRules" counter="50" required
                             label="Nome do produto" variant="outlined" density="compact"></v-text-field>
                     </v-col>
-                    <v-col cols="5" class="pb-0">
+                    <v-col cols="4" class="pb-0">
                         <v-select v-model="produto.tamanho" :items="productSizeOptions" label="Tamanho" required
                             variant="outlined" density="compact">
                         </v-select>
-                    </v-col>
-                    <v-col cols="5" class="pb-0">
-                        <v-text-field v-model="tipo.tipoVestuario" label="Tipo" :rules="textFieldRules" required
-                            counter="100" variant="outlined" density="compact">
-                        </v-text-field>
                     </v-col>
                     <v-col cols="2" class="pb-0">
                         <v-text-field v-model="produto.quantidade" :rules="quantityRules" label="Quantidade" required
                             :disabled="false" variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="2" class="pb-0">
-                        <v-select v-model="tipo.genero" :items="genreOptions" label="Genero" required variant="outlined"
-                            density="compact"></v-select>
-                    </v-col>
-                    <v-col cols="2" class="pb-0">
-                        <v-select v-model="tipo.estacao" :items="stationOptions" label="Estacao" required variant="outlined"
-                            density="compact"></v-select>
-                    </v-col>
-                    <v-col cols="4" class="pb-0">
                         <v-text-field v-model="produto.cor" label="Cor" counter="50" variant="outlined"
                             density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="4" class="pb-0">
                         <v-text-field v-model="produto.marca" label="Marca" counter="100" required :disabled="false"
-                            variant="outlined" density="compact"></v-text-field>
+                            variant="outlined" density="compact">
+                        </v-text-field>
+                    </v-col>
+                    <v-col cols="12" class="pb-0">
+                        <v-text-field v-model="produto.tipo" label="Tipo" counter="50" variant="outlined" density="compact">
+                        </v-text-field>
                     </v-col>
                     <v-col cols="12" class="pb-0">
                         <v-textarea v-model="produto.descricao" label="Descricao" counter="500" variant="outlined"
-                            density="compact"></v-textarea>
+                            density="compact">
+                        </v-textarea>
                     </v-col>
                 </v-row>
+
                 <v-row>
                     <v-col cols="9" class="pb-0">
-                        <v-text-field v-for="(foto, i) in fotosDoProduto" v-model="fotosDoProduto[i]"
-                            label="Link da foto do produto" required variant="outlined" density="compact"></v-text-field>
+                        <v-text-field v-model="produto.fotosDoProduto" label="Link da foto do produto" required
+                            variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="3" class="pb-0">
                         <v-text-field v-model="produto.valorAtual" label="Valor (R$)" required variant="outlined"
@@ -90,9 +84,6 @@ export default defineComponent({
     data() {
         return {
             produto: new Produto,
-            tipo: new Tipo,
-            tipos: [] as Tipo[],
-            fotosDoProduto: ["", "", "", ""] as Array<string>,
             genreOptions: ["Masculino", "Feminino", "Unissex"],
             stationOptions: ["Primavera", "Verão", "Outono", "Inverno"],
             productSizeOptions: ["Extra pequeno PP", "Pequeno P", "Medio M", "Grande G", "Extra grande GG", "Sem tamanho definido"],
@@ -127,32 +118,12 @@ export default defineComponent({
         clearFields() {
         },
         sendToServer() {
-            new TipoClient('tipo')
-                .cadastrar(this.tipo)
+            // console.log(this.produto.fotosDoProduto)
+            new ProdutoClient('produto')
+                .cadastrar(this.produto)
                 .then((success: any) => {
-                    // console.log("Tipo cadastrado")
-                    new TipoClient('tipo')
-                        .getAll()
-                        .then((success: Tipo[]) => {
-                            this.produto.tipo = success[success.length - 1]
-                            this.produto.fotosDoProduto = []
-                            // console.log(this.produto.fotosDoProduto)
-                            this.fotosDoProduto.forEach((foto: string) => {
-                                this.produto.fotosDoProduto.push(foto)
-                            })
-                            new ProdutoClient('produto')
-                                .cadastrar(this.produto)
-                                .then((success: any) => {
-                                    console.log(success)
-                                }).catch((err: any) => {
-                                    console.log(err)
-                                })
-                        }).catch((err) => {
-                            console.log(err)
-                        })
-
-                })
-                .catch((err: any) => {
+                    console.log(success)
+                }).catch((err: any) => {
                     console.log(err)
                 })
         }
