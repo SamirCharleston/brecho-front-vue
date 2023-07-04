@@ -20,8 +20,12 @@
                     {{ dataClients[i].produtos.length }}
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[3]">
-                    <span class="more-space">{{ dataClients[i].total }}</span>
-                    <v-btn append-icon="fa-solid fa-arrow-right" class="rounded-cicle" flat>
+                    <span>R$</span>
+                    <span class="more-space"> {{ dataClients[i].total.toFixed(2) }}</span>
+                </v-col>
+                <v-col :class="columnsStyle" :cols="columnsWidth[4]">
+                    <v-btn @click="detailsPage(dataClients[i])" append-icon="fa-solid fa-arrow-right" class="rounded-cicle"
+                        flat>
                     </v-btn>
                 </v-col>
             </v-row>
@@ -37,8 +41,8 @@ export default defineComponent({
     name: "SelledProducts",
     data() {
         return {
-            columnsContent: ["DATA", "CLIENTE", "ITENS", "TOTAL"],
-            columnsWidth: ["2", "6", "2", "2"],
+            columnsContent: ["DATA", "CLIENTE", "ITENS", "TOTAL", ""],
+            columnsWidth: ["2", "4", "2", "2", "2"],
             columnsStyle: "d-flex justfy-start font-family font-size mb-0 pb-0",
             dataClients: [] as Venda[]
         }
@@ -63,6 +67,9 @@ export default defineComponent({
             }
             return ''
         },
+        detailsPage(data: Venda) {
+            this.$router.push({ name: 'detalhes-pedido', query: { id: data.id } })
+        }
     },
     mounted() {
         this.requestServer()

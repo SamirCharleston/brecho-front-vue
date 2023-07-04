@@ -31,9 +31,8 @@ export default defineComponent({
     name: "SideBar",
     data() {
         return {
-            buttons: ["Inicio", "Produtos", "Cadastro de Produtos", "Pedidos", "Configuracoes Gerais"],
-            iconButtons: ["fa-solid fa-house", "fa-solid fa-basket-shopping", "fa-solid fa-plus", "fa-solid fa-box-open", "fa-solid fa-gear"],
-            disabledButtons: [false, false, false, false, true],
+            buttons: ["Inicio", "Produtos", "Cadastro de Produtos", "Pedidos"],
+            iconButtons: ["fa-solid fa-house", "fa-solid fa-basket-shopping", "fa-solid fa-plus", "fa-solid fa-box-open"],
             bgPrimaryColor: "bg-color-primary",
             routerLinks: ["", "/produtos-vendidos", "/cadastrar-produtos", "/pedidos", "/configuracoes"]
         }

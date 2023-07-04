@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <v-container fluid>
 
         <v-row flex-direction="column">
@@ -74,4 +74,4 @@ p {
     font-family: 'Dongle Regular';
     font-weight: bold;
 }
-</style>
+</style> -->
