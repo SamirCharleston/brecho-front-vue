@@ -17,11 +17,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'pedidos',
     component: () => import('@/components/SelledProducts.vue')
   },
-  {
-    path: '/configuracoes',
-    name: 'configuracoes',
-    component: () => import('@/components/Settings.vue')
-  },
+  // {
+  //   path: '/configuracoes',
+  //   name: 'configuracoes',
+  //   component: () => import('@/components/Settings.vue')
+  // },
   {
     path: '/detalhes-pedido',
     name: 'detalhes-pedido',

@@ -9,6 +9,7 @@
                 </v-col>
             </v-row>
             <v-row class="border-top">
+                <v-progress-linear indeterminate :color="loaderColor" height="1px" v-if="showLoader"></v-progress-linear>
             </v-row>
             <v-row v-for="dataClient, i in dataProducts" :key="dataClient.id">
                 <v-col :class="columnsStyle" :cols="columnsWidth[0]" density="compact">
@@ -25,8 +26,9 @@
                     <span class="more-space">{{ dataProducts[i].valorAtual.toFixed(2) }}</span>
                 </v-col>
                 <v-col>
-                    <v-switch @change="" v-model="dataProducts[i].status" :class="columnsStyle + ' justify-center'"
-                        :cols="columnsWidth[4]" color="#FF7272" density="compact" flat>
+                    <v-switch @click="changeStatus(dataProducts[i])" v-model="dataProducts[i].status"
+                        :class="columnsStyle + ' justify-center'" :cols="columnsWidth[4]" color="#FF7272" density="compact"
+                        flat>
                     </v-switch>
                 </v-col>
                 <v-col :class="columnsStyle" :cols="columnsWidth[5]" density="compact">
@@ -47,19 +49,37 @@ export default defineComponent({
     name: "SelledProducts",
     data() {
         return {
+            client: new ProdutoClient('produto'),
             dataProducts: [] as Produto[],
             columnsContent: ["DATA", "PRODUTO", "QTD", "VALOR", "ATIVO", ""],
             columnsWidth: ["2", "4", "2", "1", "2", "1"],
             columnsStyle: "d-flex justify-start font-family font-size mb-0 pb-0 align-center",
+            loaderColor: '#FF7272',
+            showLoader: false,
         }
     },
     methods: {
         requestServer() {
-            new ProdutoClient('produto').getAll()
+            this.showLoader = true
+            this.loaderColor = '#FF7272'
+            this.client.getAll()
                 .then((success: Produto[]) => {
                     this.dataProducts = success
                 }).catch((err) => {
-                    console.log(err)
+                    this.loaderColor = 'red'
+                }).finally(() => {
+                    setTimeout(() => this.showLoader = false, 1000)
+                })
+        },
+        sendToServer(product: Produto) {
+            product.status = !product.status
+            console.log(product.status)
+            this.showLoader = true
+            this.loaderColor = '#FF7272'
+            this.client.editar(product.id, product)
+                .catch(() => this.loaderColor = 'red')
+                .finally(() => {
+                    setTimeout(() => this.showLoader = false, 1000)
                 })
         },
         formatDate(date: Date) {
@@ -72,7 +92,10 @@ export default defineComponent({
                 return entradaData;
             }
             return ''
-        }
+        },
+        changeStatus(product: Produto) {
+            this.sendToServer(product)
+        },
     },
     mounted() {
         this.requestServer()
@@ -91,5 +114,21 @@ export default defineComponent({
 
 .more-space {
     width: 70%;
+}
+
+.transition-1s {
+    transition: all 1s;
+}
+
+.opacity-1 {
+    opacity: 1;
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+.color-red {
+    background-color: red;
 }
 </style>
