@@ -15,18 +15,25 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/pedidos',
     name: 'pedidos',
-    component: () => import('@/components/SelledProducts.vue')
+    component: () => import('@/components/SelledProducts.vue'),
+    children: [
+      {
+        path: '/detalhes-pedido',
+        name: 'detalhes-pedido',
+        component: () => import('@/components/SelledProductsDetails.vue')
+      }
+    ]
   },
-  // {
-  //   path: '/configuracoes',
-  //   name: 'configuracoes',
-  //   component: () => import('@/components/Settings.vue')
-  // },
   {
     path: '/detalhes-pedido',
     name: 'detalhes-pedido',
     component: () => import('@/components/SelledProductsDetails.vue')
   }
+  // {
+  //   path: '/configuracoes',
+  //   name: 'configuracoes',
+  //   component: () => import('@/components/Settings.vue')
+  // },
 ]
 
 const router = createRouter({
