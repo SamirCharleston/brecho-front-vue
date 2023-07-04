@@ -16,13 +16,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/pedidos',
     name: 'pedidos',
     component: () => import('@/components/SelledProducts.vue'),
-    children: [
-      {
-        path: '/detalhes-pedido',
-        name: 'detalhes-pedido',
-        component: () => import('@/components/SelledProductsDetails.vue')
-      }
-    ]
+    // children: [
+    //   {
+    //     path: '/detalhes-pedido',
+    //     name: 'detalhes-pedido',
+    //     component: () => import('@/components/SelledProductsDetails.vue')
+    //   }
+    // ]
   },
   {
     path: '/detalhes-pedido',

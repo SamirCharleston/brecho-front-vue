@@ -15,8 +15,8 @@
         </v-row>
         <v-row>
             <RouterLink to="/" class="w-100">
-                <v-btn append-icon="fa-solid fa-arrow-right-from-bracket" class="button h-100 w-100 rounded-0" flat><span
-                        class="font-size">Sair</span>
+                <v-btn @click="goOut" append-icon="fa-solid fa-arrow-right-from-bracket"
+                    class="button h-100 w-100 rounded-0" flat><span class="font-size">Sair</span>
                 </v-btn>
             </RouterLink>
         </v-row>
@@ -31,10 +31,15 @@ export default defineComponent({
     name: "SideBar",
     data() {
         return {
-            buttons: ["Inicio", "Produtos", "Cadastro de Produtos", "Pedidos"],
-            iconButtons: ["fa-solid fa-house", "fa-solid fa-basket-shopping", "fa-solid fa-plus", "fa-solid fa-box-open"],
+            buttons: ["Produtos", "Cadastro de Produtos", "Pedidos"],
+            iconButtons: ["fa-solid fa-basket-shopping", "fa-solid fa-plus", "fa-solid fa-box-open"],
             bgPrimaryColor: "bg-color-primary",
-            routerLinks: ["", "/produtos-vendidos", "/cadastrar-produtos", "/pedidos", "/configuracoes"]
+            routerLinks: ["/produtos-vendidos", "/cadastrar-produtos", "/pedidos", "/configuracoes"]
+        }
+    },
+    methods: {
+        goOut() {
+            window.location.href = 'http://localhost:8080/login'
         }
     }
 })

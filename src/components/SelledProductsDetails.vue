@@ -93,27 +93,26 @@
                 <v-col cols="3">
                     <v-switch class="font-family" color="#FF7272" density="compact" flat label="Pagamento confirmado">
                     </v-switch>
-                    
+
                 </v-col>
                 <v-col cols="3">
                     <v-switch class="font-family" color="#FF7272" density="compact" flat label="Confirmação da venda">
                     </v-switch>
                 </v-col>
             </v-row>
-            
+
             <v-row class="flex-column">
                 <v-col offset="3">
                     <span class="font-family font-size">VALOR TOTAL: {{ venda.total }}</span>
                 </v-col>
                 <v-col offset="3">
-                    <v-btn color="grey" variant="outlined"
-                            class="font-family button-size ma-1">Voltar</v-btn>
+                    <v-btn color="grey" variant="outlined" class="font-family button-size ma-1">Voltar</v-btn>
                     <v-btn class="button-style font-family button-size ma-1">Imprimir</v-btn>
                 </v-col>
             </v-row>
-            
-           
-           
+
+
+
         </v-container>
     </v-container>
 </template>
@@ -129,41 +128,39 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
     name: "SelledProductsDetails",
-    data(){
-        return{
+    data() {
+        return {
             cliente: new Cliente(),
             venda: new Venda(),
             produtos: new Array<Produto>(),
-            vendaClient: new VendaClient("Venda")
+            vendaClient: new VendaClient("venda")
         }
     },
-    methods:{
-        findById(id: number){
+    methods: {
+        findById(id: number) {
             this.vendaClient.buscaPorId(id)
-            .then((success: Venda) => {
-                this.venda = success;
-                this.produtos = success.produtos;
-                this.cliente = success.cliente;
-            })
-            .catch((error: any) => {
-                console.log(error);
-            })
+                .then((success: Venda) => {
+                    this.venda = success;
+                    this.produtos = success.produtos;
+                    this.cliente = success.cliente;
+                })
+                .catch((error: any) => {
+                    console.log(error);
+                })
         }
     },
-    computed:{
-        id(){
+    computed: {
+        id() {
             return this.$route.query.id
         }
     },
-    mounted: function()
-    {
+    mounted: function () {
         this.findById(Number(this.id));
     }
 })
 </script>
 
 <style lang="scss" scoped>
-
 $font-color: white;
 $backgroud-primary-color: #FF7272;
 $button-togle-color: #f69a9a;
